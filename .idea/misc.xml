@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="Black">
+    <option name="sdkName" value="uv (bulk-rename-gbrrr)" />
+  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="uv (bulk-rename-gbrrr)" project-jdk-type="Python SDK" />
 </project>

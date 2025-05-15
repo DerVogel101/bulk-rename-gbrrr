@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from enum import Enum
 
 @dataclass
 class FileInfo:
     name: str
+    extention: str | None
     isFolder: bool
     isHidden: bool
     lastModified: str
@@ -14,7 +16,16 @@ class bulkTransaction():
     currentNames: list[FileInfo]
     futureNames: set
 
+class IncrementPossitions(Enum):
+    START = "start",
+    END = "end",
+    NO = "no"
 
+@dataclass
+class FilenNameOptions:
+    increment_at: IncrementPossitions | None
+    seperator_char: str | None
+    preserve_file_indicator: bool | None
 
 class RenameHandler(ABC):
     """
@@ -22,11 +33,30 @@ class RenameHandler(ABC):
     """
 
     @abstractmethod
-    def getFileList(self) -> list[FileInfo]:
+    def _getFileList(self) -> list[FileInfo]:
         """
         Get the list of files to be renamed.
 
         :return: List of file paths.
+        """
+        pass
+
+    @property
+    @abstractmethod
+    def nameFormatter(self) -> FilenNameOptions:
+        """
+        Get the name formatter.
+
+        :return: The name formatter.
+        """
+        pass
+
+    @abstractmethod
+    def setNameFormatterOptions(self, **FilenNameOptions):
+        """
+        Set the name formatter.
+
+        :param value: The name formatter.
         """
         pass
 
@@ -74,18 +104,6 @@ class RenameHandler(ABC):
 
     @property
     @abstractmethod
-    def preserveFileTypeIndicator(self) -> bool:
-        """Get whether to preserve file type indicator."""
-        pass
-
-    @preserveFileTypeIndicator.setter
-    @abstractmethod
-    def preserveFileTypeIndicator(self, value: bool):
-        """Set whether to preserve file type indicator."""
-        pass
-
-    @property
-    @abstractmethod
     def replaceWithValue(self) -> str:
         """Get the replacement value."""
         pass
@@ -96,8 +114,26 @@ class RenameHandler(ABC):
         """Set the replacement value."""
         pass
 
+class FilenameFormatter(ABC):
 
-class RenameExecutor(ABC):
+    @abstractmethod
+    def __init__(self, options: FilenNameOptions):
+        """
+        """
+        pass
+
+    @abstractmethod
+    def format(self, file: FileInfo) -> str:
+        """
+        Format the filename based on the provided options.
+
+        :param file: The file to format.
+        :return: The formatted filename.
+        """
+        pass
+
+
+class RenameExecutor(RenameHandler,ABC):
     """
     Implementation of the rename operation.
     """
@@ -122,7 +158,13 @@ class RenameExecutor(ABC):
     
     @condition.setter
     @abstractmethod
-    def condition(self, value):
+    def condition(self, value: str):
         """Set the condition."""
         pass
 
+
+"""
+Incrementaition with equal Width
+
+
+"""

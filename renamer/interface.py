@@ -61,6 +61,13 @@ class RenameHandler(ABC):
         """
         pass
 
+    @abstractmethod
+    def executeRename(self, dry_run: bool = False) -> bulkTransaction:
+        """
+        execute the renam operation on all files in the provided folder
+        """
+        pass
+
     @property
     @abstractmethod
     def folderPath(self) -> str:
@@ -103,6 +110,19 @@ class RenameHandler(ABC):
         """Set whether to include folders."""
         pass
 
+    @property
+    @abstractmethod
+    def condition(self):
+        """Get the condition."""
+        pass
+    
+    @condition.setter
+    @abstractmethod
+    def condition(self, value: str):
+        """Set the condition."""
+        pass
+
+
 
 class FilenameFormatter(ABC):
 
@@ -129,25 +149,9 @@ class RenameExecutor(RenameHandler,ABC):
     """
 
     @abstractmethod
-    def executeRename(self, dry_run: bool) -> bulkTransaction:
+    def _applyNewFilename(self, file: FileInfo, renamer: RenameHandler) -> str:
         """
         Execute the rename operation.
-
-        :throws: Exception if the rename operation fails.
-
-        :param dry_run: If True, perform a dry run without making any changes.
-        :return: The number of files renamed.
+        Return name as string    
         """
-        pass
-
-    @property
-    @abstractmethod
-    def condition(self):
-        """Get the condition."""
-        pass
-    
-    @condition.setter
-    @abstractmethod
-    def condition(self, value: str):
-        """Set the condition."""
         pass

@@ -61,7 +61,7 @@ class StandartNameFormatter(FilenameFormatter):
         if self.options.preserve_file_indicator \
             and not file.isFolder:
             lookup = re.search(r"^(?!\.[^\.]*$).+(\.[^\.]+)+$", newName)
-            if not lookup or lookup.group(0) != file.extention:
+            if not lookup or lookup.group(1) != file.extention:
                 # Search the last . followed by any char if the filename dose not start with a dot
                 # or the filname contains more then one dot
                 newName = f"{newName}{file.extention}"

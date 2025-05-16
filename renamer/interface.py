@@ -26,6 +26,7 @@ class FilenNameOptions:
     increment_at: IncrementPossitions | None
     seperator_char: str | None
     preserve_file_indicator: bool | None
+    replace_with: str | None
 
 class RenameHandler(ABC):
     """
@@ -102,17 +103,6 @@ class RenameHandler(ABC):
         """Set whether to include folders."""
         pass
 
-    @property
-    @abstractmethod
-    def replaceWithValue(self) -> str:
-        """Get the replacement value."""
-        pass
-
-    @replaceWithValue.setter
-    @abstractmethod
-    def replaceWithValue(self, value: str):
-        """Set the replacement value."""
-        pass
 
 class FilenameFormatter(ABC):
 
@@ -161,10 +151,3 @@ class RenameExecutor(RenameHandler,ABC):
     def condition(self, value: str):
         """Set the condition."""
         pass
-
-
-"""
-Incrementaition with equal Width
-
-
-"""

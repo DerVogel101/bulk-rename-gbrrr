@@ -45,10 +45,11 @@ class Renamer(RenameHandler):
         content = os.listdir(self._folderPath)
         filelist = []
         for file in content:
-            extentions = re.findall(r"(?<=\.)[^./\s]+$", file)
+            extentions = re.findall(r"^(?!\.[^\.]*$).+(\.[^\.]+)+$", file)
+            name = re.findall(r"^([^.]*)\.?.*$", file)
             
             filelist.append(FileInfo(
-                name=file,
+                name=name[0] if len(name) > 0 else file,
                 extention=extentions[0] if len(extentions) > 0 else None,
                 isFolder=os.path.isdir(os.path.join(self._folderPath, file)),
                 lastModified=os.path.getmtime(os.path.join(self._folderPath, file)),
@@ -86,16 +87,6 @@ class Renamer(RenameHandler):
         self._includeFolders = folders
         self.executeRename(dry_run=True)
 
-
-    @property
-    def replaceWithValue(self) -> str:
-        return self._replaceWithValue
-
-    @replaceWithValue.setter
-    def replaceWithValue(self, value) -> None:
-        self._replaceWithValue = value
-        self.executeRename(dry_run=True)
-
     @property
     def currentTransaction(self) -> bulkTransaction:
         return self._currentTransaction
@@ -130,7 +121,7 @@ class RegExRenamer(RenameExecutor, Renamer):
             if dry_run:
                 self._currentTransaction.futureNames.add(newName)
             else:
-                os.rename(os.path.join(self.folderPath, file.name), os.path.join(self.folderPath, newName))
+                os.rename(os.path.join(self.folderPath, file.name+file.extention), os.path.join(self.folderPath, newName))
         if not dry_run:
             self._getFileList()
         return self._currentTransaction

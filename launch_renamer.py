@@ -10,7 +10,9 @@ if __name__ == "__main__":
     renamer.condition = r"^(.*)$"
     renamer.setNameFormatterOptions(
         increment_at = IncrementPossitions.NO,
-        seperator_char = "+++")
+        seperator_char = "+++",
+        preserve_file_indicator = True,
+        replace_with = "%n-%d",)
     
     # Execute the rename operation
     pprint(renamer.executeRename(dry_run=True))

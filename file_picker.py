@@ -11,6 +11,7 @@ class FolderSelectorButton(ElevatedButton):
         self.file_picker = FilePicker(on_result=self.process_result)
         self.height = 50
         self.expand = True
+        self.width = 300
         self.style = ButtonStyle(
             icon_size=30,
             bgcolor=Colors.PRIMARY_CONTAINER,

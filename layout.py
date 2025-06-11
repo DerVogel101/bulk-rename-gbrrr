@@ -49,3 +49,12 @@ class FileListRow(Row):
             ElementListContainer(),
         ]
         self.alignment = MainAxisAlignment.SPACE_AROUND
+
+class RuleRow(Row):
+    def __init__(self):
+        super().__init__()
+        self.controls = [
+
+        ]
+
+#class Rule
